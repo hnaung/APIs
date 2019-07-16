@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "koa",
+    "prettier",
+    "prettier/@typescript-eslint"
+  ],
+  "plugins": [
+    "prettier",
+    "@typescript-eslint"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "env": {
+    "node": true,
+    "mocha": true
+  },
+  "rules": {
+    "arrow-parens": 0,
+    "no-unused-vars": 1,
+    "import/first": 0 
+  }
+}

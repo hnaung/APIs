@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  identity-service:
+    container_name: identity-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: identity-service:prod
+    command: npm start
+    ports:
+      - 3000:8080
+
+  mysql:
+    container_name: mysql
+    image: mysql:8
