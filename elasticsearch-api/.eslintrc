@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "koa",
+    "prettier"
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "env": {
+    "node": true,
+    "mocha": true
+  },
+  "rules": {
+    "arrow-parens": 0
+  }
+}

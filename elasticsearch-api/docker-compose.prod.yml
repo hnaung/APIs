@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  elasticsearch-context:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: elasticsearch-context:prod
+    command: npm start
+    environment:
+      - ES_HOST=http://elasticsearch-prod:9200
+      - NODE_ENV=production
+    ports:
+      - 4000:4000
+    depends_on:
+      - elasticsearch-prod
+  
+  elasticsearch-prod:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+    container_name: elasticsearch-prod
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - node.name=gplus-es
+      - cluster.name=gplus-escluster
+      - cluster.initial_master_nodes=gplus-es
+      - xpack.monitoring.collection.enabled=true
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - esdata-prod:/usr/share/elasticsearch/data
+  
+  kibana-prod:
+    container_name: kibana-prod
+    image: docker.elastic.co/kibana/kibana:7.2.0
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch-prod:9200
+
+volumes:
+  esdata-prod:

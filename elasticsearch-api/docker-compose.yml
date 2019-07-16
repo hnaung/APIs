@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  elasticsearch-context:
+    container_name: elasticsearch-context
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    image: elasticsearch-context:dev
+    command: npm run dev
+    volumes:
+        - ./:/opt/node_app
+        - ./package.json:/opt/node_app/package.json
+        - ./package-lock.json:/opt/node_app/package-lock.json
+        - /opt/node_app/node_modules
+      
+      

@@ -1,0 +1,74 @@
+{
+  "name": "search-context-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": ">=10.15.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run prettier-check && npm run lint-check && npm test"
+    }
+  },
+  "dependencies": {
+    "@elastic/elasticsearch": "^7.1.0",
+    "@koa/cors": "^2.2.3",
+    "date-fns": "^1.30.1",
+    "dotenv": "^7.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-bunyan-logger": "^2.1.0",
+    "koa-router": "^7.4.0",
+    "lodash.clonedeep": "^4.5.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^5.15.3",
+    "eslint-config-koa": "^2.0.2",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "husky": "^2.3.0",
+    "mocha": "^6.0.2",
+    "nodemon": "^1.18.10",
+    "nyc": "^13.3.0",
+    "prettier": "^1.16.4",
+    "sinon": "^7.3.1",
+    "supertest": "^4.0.2"
+  },
+  "scripts": {
+    "test-integration": "NODE_ENV=test nyc --report=lcov mocha test/integration/index.js",
+    "test-unit": "NODE_ENV=test nyc --report=lcov mocha test/unit/index.js",
+    "test": "NODE_ENV=test nyc --report=lcov mocha test/**/index.js",
+    "test-watch": "nyc --report=lcov npm run test -- --watch",
+    "lint-fix": "eslint --fix .",
+    "lint-check": "eslint .",
+    "prettier-fix": "prettier --write **/*.js",
+    "prettier-check": "prettier --list-different **/*.js",
+    "docker-build": "docker image build -t elasticsearch-context:dev -f Dockerfile-dev .",
+    "docker-build-prod": "docker image build -t elasticsearch-context:prod .",
+    "docker-run": "docker run -p 4001:4001 -d --name elasticsearch-context-dev elasticsearch-context:dev",
+    "docker-run-prod": "docker run -p 4000:4000 -d --name elasticsearch-context-prod elasticsearch-context:prod",
+    "dev": "nodemon --legacy-watch index.js | ./node_modules/.bin/bunyan -o short",
+    "start": "node bin/www | ./node_modules/.bin/bunyan -o short",
+    "compose-prod-build": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml build",
+    "compose-prod-up": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d",
+    "compose-prod-down": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml down"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/gourmet-plus/elasticsearch-context.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/gourmet-plus/elasticsearch-context/issues"
+  },
+  "homepage": "https://gitlab.com/gourmet-plus/elasticsearch-context#readme"
+}

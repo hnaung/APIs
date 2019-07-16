@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  elasticsearch-context:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    image: elasticsearch-context:dev
+    command: npm run dev
+    environment:
+      - ES_HOST=http://elasticsearch-dev:9200
+      - NODE_ENV=development
+    ports:
+      - 4001:4001
+    depends_on:
+      - elasticsearch-dev
+  
+  elasticsearch-dev:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+    container_name: elasticsearch-dev
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - discovery.type=single-node
+      - node.name=es01
+      - cluster.name=es-cluster
+      - xpack.monitoring.collection.enabled=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata-dev:/usr/share/elasticsearch/data
+  
+  kibana-dev:
+    container_name: kibana-dev
+    image: docker.elastic.co/kibana/kibana:7.2.0
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch-dev:9200
+
+volumes:
+  esdata-dev:
