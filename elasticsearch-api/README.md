@@ -9,7 +9,7 @@ This project is created using [koa](https://koajs.com/)
 
 
 # Running the project
-* Clone the project: `git clone git@gitlab.com:gourmet-plus/identity-service.git`
+* Clone the project`
 
 **Run in development mode**
 * Build: `docker-compose build`
