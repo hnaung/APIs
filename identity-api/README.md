@@ -2,7 +2,7 @@
 This project is created using [koa](https://koajs.com/)
 
 # Usage
-* clone the project: `git clone git@gitlab.com:gourmet-plus/identity-service.git`
+* clone the project:
 * Install packages: `npm install`
   
 # Setup
